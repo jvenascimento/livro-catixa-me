@@ -948,21 +948,33 @@
   });
   // ====================================================
 
-  document.getElementById('btn-sync-pull').addEventListener('click', function(){
+ document.getElementById('btn-sync-push').addEventListener('click', function(){
     var url = getSyncUrl();
     if(!url){ setSyncStatus('Cole e salve o link do Apps Script primeiro.', 'erro'); return; }
-    if(!confirm('Isso vai substituir os dados deste site pelos dados da planilha. Continuar?')) return;
-    setSyncStatus('Buscando...', '');
-    fetch(url)
-      .then(function(r){ if(!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
-      .then(function(json){
-        if(!json.contas || !json.lancamentos) throw new Error('resposta em formato inesperado');
-        data = json;
-        saveData();
-        render();
-        setSyncStatus('Dados trazidos da planilha com sucesso.', 'ok');
-      })
-      .catch(function(err){ setSyncStatus('Erro ao buscar: ' + err.message, 'erro'); });
+    setSyncStatus('Enviando...', '');
+    
+    // Mudança principal: Usar URLSearchParams funciona melhor com o Google Script
+    var payload = new URLSearchParams();
+    payload.append('dados', JSON.stringify(data));
+
+    fetch(url, {
+      method: 'POST',
+      body: payload // Envia os dados
+    })
+    .then(function(r){ 
+      if(!r.ok) throw new Error('HTTP ' + r.status); 
+      return r.text(); // ISSO É VITAL: Tem que ler como texto, não como json()
+    })
+    .then(function(texto){ 
+      // Se a resposta do Google contiver a palavra "Erro"
+      if(texto.includes("Erro")) {
+         throw new Error(texto); 
+      }
+      setSyncStatus('Enviado para a planilha com sucesso.', 'ok'); 
+    })
+    .catch(function(err){ 
+      setSyncStatus('Erro ao enviar: ' + err.message, 'erro'); 
+    });
   });
 
   render();
