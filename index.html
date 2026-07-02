@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+<link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Livro-Caixa · Controle de Gastos</title>
@@ -924,19 +925,28 @@
     setSyncStatus(url ? 'Link salvo.' : 'Link removido.', 'ok');
   });
 
+  // ======= NOVA FUNÇÃO COM FORMDATA (CORS FIX) =======
   document.getElementById('btn-sync-push').addEventListener('click', function(){
     var url = getSyncUrl();
     if(!url){ setSyncStatus('Cole e salve o link do Apps Script primeiro.', 'erro'); return; }
     setSyncStatus('Enviando...', '');
+    
+    // Criando um FormData para evitar o bloqueio de CORS no Google Script
+    var formData = new FormData();
+    formData.append('dados', JSON.stringify(data)); // Empacota todo o JSON dentro da variável 'dados'
+
     fetch(url, {
       method: 'POST',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify(data)
+      body: formData // Removemos os headers de JSON e enviamos como formulário
     })
-    .then(function(r){ if(!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
-    .then(function(){ setSyncStatus('Enviado para a planilha com sucesso.', 'ok'); })
+    .then(function(r){ 
+      if(!r.ok) throw new Error('HTTP ' + r.status); 
+      return r.text(); // Lendo como texto ao invés de json para evitar erros de resposta do Google
+    })
+    .then(function(texto){ setSyncStatus('Enviado para a planilha com sucesso.', 'ok'); })
     .catch(function(err){ setSyncStatus('Erro ao enviar: ' + err.message, 'erro'); });
   });
+  // ====================================================
 
   document.getElementById('btn-sync-pull').addEventListener('click', function(){
     var url = getSyncUrl();
