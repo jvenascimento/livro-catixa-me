@@ -7,6 +7,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Livro-Caixa">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <link rel="apple-touch-icon" href="icon-192.png">
 <style>
   :root{
@@ -405,93 +406,101 @@
   #file-input{ display:none; }
 
   /* ---------- Ajuste fino: iPhone / telas estreitas (até 430px) ---------- */
+ /* ---------- Ajuste fino: iPhone / telas estreitas (até 430px) ---------- */
   @media (max-width:430px){
-    body{ padding-bottom:100px; }
+    body{ padding-bottom:120px; }
     body::before{ left:16px; }
 
     .wrap{ padding:0 14px; }
 
     header{ padding:28px 0 18px 22px; }
-    h1{ font-size:28px; }
-    .sub{ font-size:13.5px; }
-    .eyebrow{ font-size:10px; letter-spacing:0.14em; }
+    h1{ font-size:32px; } /* Letra maior */
+    .sub{ font-size:16px; } /* Letra maior */
+    .eyebrow{ font-size:12px; letter-spacing:0.1em; }
 
     .summary{
-      grid-template-columns:1fr 1fr;
+      grid-template-columns:1fr; /* Coloca 1 card por linha (empilhado) */
       padding-left:22px;
       padding-right:0;
-      gap:10px;
+      gap:14px;
     }
-    .sum-card{ padding:14px 14px 12px; }
-    .sum-card .val{ font-size:20px; }
-    .sum-card .lbl{ font-size:9.5px; }
+    .sum-card{ padding:16px; }
+    .sum-card .val{ font-size:28px; } /* Valores do topo maiores */
+    .sum-card .lbl{ font-size:12px; }
 
     section.contas{ padding:22px 0 4px 22px; }
     section.lancamentos{ padding:24px 0 0 22px; }
-    .section-title{ font-size:10px; }
+    .section-title{ font-size:13px; }
 
-    .contas-grid{ gap:10px; }
-    .conta-card{ padding:12px 14px; }
-    .conta-card .saldo-atual{ font-size:17px; }
-    .conta-card input.saldo-inicial-input{ font-size:13px; width:70px; }
+    .contas-grid{ 
+      grid-template-columns:1fr; /* Coloca as contas empilhadas */
+      gap:12px; 
+    }
+    .conta-card{ padding:16px; }
+    .conta-card .saldo-atual{ font-size:24px; }
+    .conta-card input.saldo-inicial-input{ font-size:16px; width:90px; }
 
-    .toolbar{ gap:6px; }
+    .toolbar{ 
+      flex-direction: column; /* Filtros empilhados */
+      gap:10px; 
+      align-items: stretch; 
+    }
     select.filtro{
-      flex:1;
-      min-width:0;
-      font-size:12px;
-      padding:8px 6px;
+      font-size:16px; /* Tamanho ideal para iOS não dar zoom */
+      padding:12px;
     }
 
     .l-row{
-      padding:12px;
+      padding:16px;
       grid-template-columns: 1fr auto;
+      row-gap:12px;
     }
-    .c-nome input{ font-size:15px; padding:6px 2px; }
-    input.c-valor-input{ font-size:15px; padding:6px 2px; }
-    select.c-conta-select{ font-size:13px; padding:6px 2px; }
+    .c-nome input{ font-size:16px; padding:6px 2px; }
+    input.c-valor-input{ font-size:16px; padding:6px 2px; }
+    select.c-conta-select{ font-size:15px; padding:6px 2px; }
 
     .stamp{
-      padding:6px 11px;
-      font-size:10.5px;
+      padding:8px 12px;
+      font-size:12px;
     }
     .btn-del{
-      font-size:19px;
-      padding:6px 8px;
+      font-size:24px;
+      padding:8px;
     }
 
     .add-row{ padding:0; }
     .btn-add{
       width:100%;
-      padding:14px 16px;
-      font-size:13px;
+      padding:16px;
+      font-size:16px;
       text-align:center;
     }
 
     footer{
-      padding:18px 14px 0;
+      padding:24px 14px 0;
       margin-top:32px;
-      gap:8px;
+      flex-direction: column;
+      gap:12px;
     }
     .btn-ghost{
-      flex:1 1 calc(50% - 4px);
-      padding:11px 10px;
-      font-size:11px;
+      width: 100%;
+      padding:14px;
+      font-size:14px;
       text-align:center;
     }
 
-    .note{ padding:12px 14px 0; font-size:11px; max-width:none; }
+    .note{ padding:16px 14px 0; font-size:13px; max-width:none; }
 
     .sync-card{
       margin:16px 14px 0;
-      padding:14px;
+      padding:16px;
       max-width:none;
     }
     .sync-row{ flex-direction:column; align-items:stretch; }
-    input#sync-url{ font-size:13px; padding:10px; }
-    #btn-sync-save{ width:100%; padding:11px; text-align:center; }
+    input#sync-url{ font-size:16px; padding:12px; }
+    #btn-sync-save{ width:100%; padding:14px; font-size: 14px; text-align:center; }
     .sync-actions{ flex-direction:column; }
-    .sync-actions .btn-ghost{ flex:1 1 auto; width:100%; }
+    .sync-actions .btn-ghost{ width:100%; font-size: 14px; }
   }
 
   /* garante alvo de toque confortável em qualquer tela estreita */
