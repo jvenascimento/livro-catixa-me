@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Livro-Caixa · Controle de Gastos</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <!-- Configurações do PWA e iOS -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#efead9">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Livro-Caixa">
+<link rel="apple-touch-icon" href="icon-192.png">
 <style>
   :root{
     --paper: #efead9;
@@ -979,6 +979,18 @@
 
   render();
 })();
+</script>
+<!-- Registra o Service Worker para funcionar Offline -->
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('sw.js').then(function(registration) {
+        console.log('ServiceWorker registrado com sucesso com o escopo: ', registration.scope);
+      }, function(err) {
+        console.log('Falha ao registrar o ServiceWorker: ', err);
+      });
+    });
+  }
 </script>
 
 </body>
